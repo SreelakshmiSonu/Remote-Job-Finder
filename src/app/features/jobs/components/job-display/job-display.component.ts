@@ -1,6 +1,6 @@
 //this component only displays job results, shows loading, error and empty states
 
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -9,6 +9,7 @@ import { Job } from '../../../../core/models/job.model';
 
 @Component({
   selector: 'app-results-display',
+  changeDetection : ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
     CommonModule,
