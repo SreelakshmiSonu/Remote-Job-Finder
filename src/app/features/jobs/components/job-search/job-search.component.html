@@ -1,0 +1,33 @@
+
+<header class="header">
+  <h1 class="title">Remote Job Finder</h1>
+  <p class="subtitle">Discover remote opportunities worldwide</p>
+</header>
+<mat-card class="search-card">
+  <mat-card-content>
+    <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="search-form">
+      <mat-form-field appearance="outline" class="keyword-field">
+        <mat-label>What are you looking for?</mat-label>
+        <input matInput formControlName="keyword" placeholder="e.g., Frontend Developer, Designer"/>
+          @if (searchForm.controls.keyword.invalid && searchForm.controls.keyword.touched) {
+            <mat-error>Enter at least 2 characters</mat-error>
+          }
+      </mat-form-field>
+
+      <mat-form-field class="navy-text" appearance="outline" class="category-field">
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="category">
+          @for (category of categories; track category.value) {
+            <mat-option  [value]="category.value">
+              {{ category.label }}
+            </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="searchForm.invalid || isSearching">
+        {{ isSearching ? 'Searching...' : 'Search Jobs' }}
+      </button>
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,15 @@
+<div class="container">
+    <!-- Showing the search form using the job-search component -->
+    <app-search-form
+      [isSearching]="isLoading()"
+      (searchSubmitted)="handleSearch($event)"
+    />
+
+    <!-- Showing the search results from the job-display component-->
+    <app-results-display
+      [jobs]="jobs()"
+      [isLoading]="isLoading()"
+      [errorMessage]="errorMessage()"
+      [hasSearched]="hasSearched()"
+    />
+  </div>

@@ -1,0 +1,71 @@
+<!-- Loading State -->
+@if (isLoading) {
+  <div class="loading-container">
+    <mat-progress-spinner mode="indeterminate" diameter="60"></mat-progress-spinner>
+    <p>Finding amazing opportunities...</p>
+  </div>
+}
+
+<!-- Error State -->
+@else if (errorMessage) {
+  <mat-card class="error-card">
+    <mat-card-content>
+      <div class="error-icon">⚠️</div>
+      <h3>Oops! Something went wrong</h3>
+      <p>{{ errorMessage }}</p>
+    </mat-card-content>
+  </mat-card>
+}
+
+<!-- No Results -->
+@else if (hasSearched && jobs.length === 0) {
+  <mat-card class="empty-card">
+    <mat-card-content>
+      <h3>No jobs found</h3>
+      <p>Try different keywords or check back later</p>
+    </mat-card-content>
+  </mat-card>
+}
+
+<!-- Results Grid -->
+@else if (jobs.length > 0) {
+  <div class="results-section">
+    <h2 class="results-header">
+      Found {{ jobs.length }} {{ jobs.length === 1 ? 'opportunity' : 'opportunities' }}
+    </h2>
+    
+    <div class="jobs-grid">
+      @for (job of jobs; track job.id) {
+        <mat-card class="job-card">
+          <mat-card-content>
+            <h3 class="job-title">{{ job.title }}</h3>
+            <p class="company-name">{{ job.company }}</p>
+            
+            <div class="job-meta">
+              <span class="meta-item">
+                <span class="icon">Category:</span> {{ job.category }}
+              </span>
+              <span class="meta-item">
+                <span class="icon">Type:</span> {{ job.jobType }}
+              </span>
+              <span class="meta-item">
+                <span class="icon">Location:</span> {{ job.location || 'Worldwide' }}
+              </span>
+            </div>
+
+            <a 
+              [href]="job.url" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              mat-raised-button
+              color="accent"
+              class="apply-button"
+            >
+              View Position
+            </a>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  </div>
+}
