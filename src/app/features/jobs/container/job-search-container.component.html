@@ -1,15 +1,19 @@
-<div class="container">
-    <!-- Showing the search form using the job-search component -->
+<div class="page-shell">
+  <main class="container">
     <app-search-form
       [isSearching]="isLoading()"
       (searchSubmitted)="handleSearch($event)"
     />
 
-    <!-- Showing the search results from the job-display component-->
     <app-results-display
       [jobs]="jobs()"
       [isLoading]="isLoading()"
       [errorMessage]="errorMessage()"
       [hasSearched]="hasSearched()"
     />
-  </div>
+  </main>
+  <footer class="site-footer">
+    <span class="footer-brand">Remote Job Finder</span>
+    <span class="footer-credit">Job listings sourced from <a href="https://remotive.com/remote-jobs" target="_blank" rel="noopener noreferrer">Remotive</a></span>
+  </footer>
+</div>

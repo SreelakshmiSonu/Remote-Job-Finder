@@ -1,20 +1,26 @@
 
 <header class="header">
-  <h1 class="title">Remote Job Finder</h1>
-  <p class="subtitle">Discover remote opportunities worldwide</p>
+  <div class="brand"><span class="brand-mark" aria-hidden="true">R</span><span>Remote Job Finder</span></div>
+  <p class="eyebrow">A better way to work</p>
+  <h1 class="title">Find work that<br><span>fits your life.</span></h1>
+  <p class="subtitle">Thoughtful remote opportunities from teams around the world.</p>
 </header>
 <mat-card class="search-card">
   <mat-card-content>
+    <div class="search-intro">
+      <span class="search-icon" aria-hidden="true">⌕</span>
+      <div><h2>Start your search</h2><p>Tell us what you’re looking for.</p></div>
+    </div>
     <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="search-form">
       <mat-form-field appearance="outline" class="keyword-field">
-        <mat-label>What are you looking for?</mat-label>
-        <input matInput formControlName="keyword" placeholder="e.g., Frontend Developer, Designer"/>
+        <mat-label>Job title or keyword</mat-label>
+        <input matInput formControlName="keyword" placeholder="e.g. Product designer"/>
           @if (searchForm.controls.keyword.invalid && searchForm.controls.keyword.touched) {
             <mat-error>Enter at least 2 characters</mat-error>
           }
       </mat-form-field>
 
-      <mat-form-field class="navy-text" appearance="outline" class="category-field">
+      <mat-form-field appearance="outline" class="category-field">
         <mat-label>Category</mat-label>
         <mat-select formControlName="category">
           @for (category of categories; track category.value) {
@@ -26,7 +32,7 @@
       </mat-form-field>
 
       <button mat-raised-button color="primary" type="submit" [disabled]="searchForm.invalid || isSearching">
-        {{ isSearching ? 'Searching...' : 'Search Jobs' }}
+        {{ isSearching ? 'Searching…' : 'Find a job' }} <span aria-hidden="true">→</span>
       </button>
     </form>
   </mat-card-content>

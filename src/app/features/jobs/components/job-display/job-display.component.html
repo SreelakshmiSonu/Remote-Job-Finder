@@ -2,7 +2,7 @@
 @if (isLoading) {
   <div class="loading-container">
     <mat-progress-spinner mode="indeterminate" diameter="60"></mat-progress-spinner>
-    <p>Finding amazing opportunities...</p>
+    <p>Finding opportunities that fit…</p>
   </div>
 }
 
@@ -21,8 +21,9 @@
 @else if (hasSearched && jobs.length === 0) {
   <mat-card class="empty-card">
     <mat-card-content>
-      <h3>No jobs found</h3>
-      <p>Try different keywords or check back later</p>
+      <span class="state-mark" aria-hidden="true">⌕</span>
+      <h3>No matches just yet</h3>
+      <p>Try a broader job title or choose another category.</p>
     </mat-card-content>
   </mat-card>
 }
@@ -30,27 +31,21 @@
 <!-- Results Grid -->
 @else if (jobs.length > 0) {
   <div class="results-section">
-    <h2 class="results-header">
-      Found {{ jobs.length }} {{ jobs.length === 1 ? 'opportunity' : 'opportunities' }}
-    </h2>
+    <div class="results-heading">
+      <div><p class="eyebrow">Curated for your search</p><h2 class="results-header">Remote opportunities</h2></div>
+      <span class="result-count">{{ jobs.length }} {{ jobs.length === 1 ? 'role' : 'roles' }}</span>
+    </div>
     
     <div class="jobs-grid">
-      @for (job of jobs; track job.id) {
+      @for (job of paginatedJobs; track job.id) {
         <mat-card class="job-card">
           <mat-card-content>
+            <div class="company-row"><span class="company-avatar" aria-hidden="true">{{ job.company.charAt(0) }}</span><span class="company-name">{{ job.company }}</span></div>
             <h3 class="job-title">{{ job.title }}</h3>
-            <p class="company-name">{{ job.company }}</p>
             
             <div class="job-meta">
-              <span class="meta-item">
-                <span class="icon">Category:</span> {{ job.category }}
-              </span>
-              <span class="meta-item">
-                <span class="icon">Type:</span> {{ job.jobType }}
-              </span>
-              <span class="meta-item">
-                <span class="icon">Location:</span> {{ job.location || 'Worldwide' }}
-              </span>
+              <span class="meta-pill">{{ job.jobType }}</span>
+              <span class="meta-item">{{ job.location || 'Worldwide' }}</span>
             </div>
 
             <a 
@@ -61,11 +56,24 @@
               color="accent"
               class="apply-button"
             >
-              View Position
+              View position <span aria-hidden="true">↗</span>
             </a>
           </mat-card-content>
         </mat-card>
       }
     </div>
+
+    @if (totalPages > 1) {
+      <nav class="pagination" aria-label="Job result pages">
+        <span class="page-summary">Showing {{ firstVisibleJob }}–{{ lastVisibleJob }} of {{ jobs.length }}</span>
+        <div class="page-controls">
+          <button type="button" class="page-arrow" aria-label="Previous page" [disabled]="currentPage === 1" (click)="setPage(currentPage - 1)">← <span>Previous</span></button>
+          @for (page of pageNumbers; track page) {
+            <button type="button" class="page-number" [class.active]="currentPage === page" [attr.aria-current]="currentPage === page ? 'page' : null" [attr.aria-label]="'Page ' + page" (click)="setPage(page)">{{ page }}</button>
+          }
+          <button type="button" class="page-arrow" aria-label="Next page" [disabled]="currentPage === totalPages" (click)="setPage(currentPage + 1)"><span>Next</span> →</button>
+        </div>
+      </nav>
+    }
   </div>
 }
